@@ -18,8 +18,18 @@ const Home = () => {
   const [difficulty, setDifficulty] = useState<
     'easy' | 'medium' | 'hard' | 'insane'
   >('medium')
+  const [darkMode, setDarkMode] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [loading, setLoading] = useState(true)
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode)
+    if (darkMode) {
+      document.documentElement.classList.remove('dark')
+    } else {
+      document.documentElement.classList.add('dark')
+    }
+  }
 
   useEffect(() => {
     const savedGame = localStorage.getItem(LOCAL_STORAGE_KEY)
@@ -153,17 +163,25 @@ const Home = () => {
   }
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
+    <div
+      className={`${darkMode ? 'dark' : ''} relative min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 p-4`}
+    >
       {loading ? (
         <Loading />
       ) : (
         <>
           <span
             onClick={() => setIsModalOpen(true)}
-            className="absolute top-4 right-4 bg-white shadow-md hover:scale-110 hover:bg-gray-500 hover:cursor-pointer p-2 rounded-full"
+            className="absolute top-4 right-4 bg-white dark:bg-gray-800 shadow-md hover:scale-110 hover:bg-gray-500 hover:cursor-pointer p-2 rounded-full"
           >
             <InfoIcon />
           </span>
+          <button
+            onClick={toggleDarkMode}
+            className="absolute top-4 left-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            {darkMode ? 'Light Mode' : 'Dark Mode'}
+          </button>
           <DifficultyButtons difficulty={difficulty} resetGame={resetGame} />
           {board.length > 0 && (
             <SudokuBoard

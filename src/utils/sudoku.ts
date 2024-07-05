@@ -106,7 +106,7 @@ export const generateInitialBoard = (
   const randomizedBoard = shuffleBoard(fullBoard)
   const numberOfCellsToRemove =
     difficulty === 'easy'
-      ? 30
+      ? 1
       : difficulty === 'medium'
         ? 40
         : difficulty === 'hard'
