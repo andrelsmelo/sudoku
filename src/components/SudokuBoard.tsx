@@ -16,7 +16,7 @@ const SudokuBoard: React.FC<SudokuBoardProps> = ({
   isCellCorrect,
 }) => {
   return (
-    <div className="grid grid-cols-9 gap-0">
+    <div className="grid grid-cols-9">
       {board.map((row, rowIndex) =>
         row.map((cell, colIndex) => {
           const isInitial = initialBoard[rowIndex][colIndex] !== 0
@@ -24,10 +24,10 @@ const SudokuBoard: React.FC<SudokuBoardProps> = ({
           const isCorrect = isCellCorrect(rowIndex, colIndex)
 
           const borderClasses = `
-            ${rowIndex % 3 === 0 ? 'border-t-2' : 'border-t'}
-            ${colIndex % 3 === 0 ? 'border-l-2' : 'border-l'}
-            ${rowIndex === 8 ? 'border-b-2' : 'border-b'}
-            ${colIndex === 8 ? 'border-r-2' : 'border-r'}
+            ${rowIndex % 3 === 0 ? 'border-t-2 sm:border-t-4' : 'border-t'}
+            ${colIndex % 3 === 0 ? 'border-l-2 sm:border-l-4' : 'border-l'}
+            ${rowIndex === 8 ? 'border-b-2 sm:border-b-4' : 'border-b'}
+            ${colIndex === 8 ? 'border-r-2 sm:border-r-4' : 'border-r'}
           `
 
           return (
@@ -43,7 +43,7 @@ const SudokuBoard: React.FC<SudokuBoardProps> = ({
               aria-label={`Sudoku cell at row ${rowIndex + 1}, column ${colIndex + 1}`}
               title={`Sudoku cell at row ${rowIndex + 1}, column ${colIndex + 1}`}
               placeholder={isInitial ? cellValue : ' '}
-              className={`w-10 h-10 text-center ${borderClasses} ${
+              className={`w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 text-center ${borderClasses} ${
                 isInitial
                   ? 'bg-gray-200 border-gray-400'
                   : cell === 0

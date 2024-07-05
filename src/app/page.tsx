@@ -13,12 +13,19 @@ const Home = () => {
     'easy' | 'medium' | 'hard' | 'insane'
   >('medium')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [key, setKey] = useState(0) // Use a key to force re-render
 
-  useEffect(() => {
+  const initializeBoard = (
+    difficulty: 'easy' | 'medium' | 'hard' | 'insane',
+  ) => {
     const newBoard = generateInitialBoard(difficulty)
     setInitialBoard(newBoard)
     setBoard(newBoard)
-  }, [difficulty])
+  }
+
+  useEffect(() => {
+    initializeBoard(difficulty)
+  }, [difficulty, key]) // Re-initialize board when difficulty or key changes
 
   const handleInputChange = (row: number, col: number, value: string) => {
     if (initialBoard[row][col] !== 0) return
@@ -59,10 +66,7 @@ const Home = () => {
     newDifficulty: 'easy' | 'medium' | 'hard' | 'insane' = difficulty,
   ) => {
     setDifficulty(newDifficulty)
-    const newBoard = generateInitialBoard(newDifficulty)
-    setInitialBoard(newBoard)
-    setBoard(newBoard)
-    setMessage('')
+    setKey((prevKey) => prevKey + 1) // Force re-initialization
   }
 
   const isCellCorrect = (row: number, col: number): boolean | null => {
@@ -96,13 +100,13 @@ const Home = () => {
     <div className="relative min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
       <span
         onClick={() => setIsModalOpen(true)}
-        className="absolute top-4 right-4 bg-white shadow-md hover:scale-110 hover:bg-gray-500 hover:cursor-pointer px-2 py-2 rounded-full"
+        className="absolute top-4 right-4 bg-white shadow-md hover:scale-110 hover:bg-gray-500 hover:cursor-pointer p-2 rounded-full"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 256 256"
-          width={32}
-          height={32}
+          width={24}
+          height={24}
         >
           <rect width="256" height="256" fill="none" />
           <circle cx="128" cy="180" r="12" />
@@ -110,9 +114,9 @@ const Home = () => {
             d="M128,144v-8c17.67,0,32-12.54,32-28s-14.33-28-32-28S96,92.54,96,108v4"
             fill="none"
             stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="16"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="16"
           />
           <circle
             cx="128"
@@ -120,34 +124,34 @@ const Home = () => {
             r="96"
             fill="none"
             stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="16"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="16"
           />
         </svg>
       </span>
-      <div className="flex mb-4 gap-4">
+      <div className="flex flex-wrap mb-4 gap-2 sm:gap-4">
         <button
           onClick={() => resetGame('easy')}
-          className={`bg-blue-300 text-slate-900  hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'easy' ? 'border border-black' : ''} mr-2`}
+          className={`bg-blue-300 text-slate-900 hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'easy' ? 'border border-black' : ''}`}
         >
           Easy
         </button>
         <button
           onClick={() => resetGame('medium')}
-          className={`bg-green-300 text-slate-900 hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'medium' ? 'border border-black' : ''} mr-2`}
+          className={`bg-green-300 text-slate-900 hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'medium' ? 'border border-black' : ''}`}
         >
           Medium
         </button>
         <button
           onClick={() => resetGame('hard')}
-          className={`bg-red-300 text-slate-900  hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'hard' ? 'border border-black' : ''}`}
+          className={`bg-red-300 text-slate-900 hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'hard' ? 'border border-black' : ''}`}
         >
           Hard
         </button>
         <button
           onClick={() => resetGame('insane')}
-          className={`bg-black text-white  hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'hard' ? 'border border-black' : ''}`}
+          className={`bg-black text-white hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'insane' ? 'border border-black' : ''}`}
         >
           Insane
         </button>
@@ -164,13 +168,13 @@ const Home = () => {
       <div className="mt-4">
         <button
           onClick={checkSolution}
-          className="bg-blue-500 text-white px-4 py-2  hover:scale-110 rounded mr-2"
+          className="bg-blue-500 text-white px-4 py-2 hover:scale-110 rounded mr-2"
         >
           Check Solution
         </button>
         <button
           onClick={() => resetGame()}
-          className="bg-red-500 text-white px-4 py-2 hover:scale-110 rounded mr-2"
+          className="bg-red-500 text-white px-4 py-2 hover:scale-110 rounded"
         >
           New Game
         </button>
