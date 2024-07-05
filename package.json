@@ -27,15 +27,6 @@
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },
-  "eslintConfig": {
-    "extends": [
-      "next/core-web-vitals",
-      "prettier"
-    ],
-    "rules": {
-      "no-console": "error"
-    }
-  },
   "prettier": {
     "semi": false,
     "singleQuote": true

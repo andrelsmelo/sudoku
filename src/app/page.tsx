@@ -17,7 +17,6 @@ const Home = () => {
   >('medium')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [key, setKey] = useState(0)
 
   useEffect(() => {
     const savedGame = localStorage.getItem(LOCAL_STORAGE_KEY)
@@ -97,7 +96,6 @@ const Home = () => {
     newDifficulty: 'easy' | 'medium' | 'hard' | 'insane' = difficulty,
   ) => {
     setDifficulty(newDifficulty)
-    setKey((prevKey) => prevKey + 1)
     initializeBoard(newDifficulty)
   }
 
