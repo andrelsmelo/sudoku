@@ -82,7 +82,7 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-around bg-gray-100 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
       <div className="flex mb-4 gap-4">
         <button
           onClick={() => resetGame('easy')}
@@ -103,7 +103,6 @@ const Home = () => {
           Hard
         </button>
       </div>
-
       {board.length > 0 && (
         <SudokuBoard
           board={board}
@@ -121,7 +120,7 @@ const Home = () => {
         </button>
         <button
           onClick={() => resetGame()}
-          className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
+          className="bg-red-500 text-white px-4 py-2 rounded mr-2"
         >
           New Game
         </button>
