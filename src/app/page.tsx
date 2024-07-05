@@ -5,6 +5,9 @@ import SudokuBoard from '@/components/SudokuBoard'
 import Loading from '@/components/Loading'
 import { generateInitialBoard, isBoardValid } from '@/utils/sudoku'
 import InfoModal from '@/components/InfoModal'
+import Message from '@/components/Message'
+import InfoIcon from '@/components/icons/Info'
+import DifficultyButtons from '@/components/DifficultyButtons'
 
 const LOCAL_STORAGE_KEY = 'sudokuGameState'
 
@@ -87,8 +90,6 @@ const Home = () => {
 
     if (isBoardValid(newBoard)) {
       setMessage('Congratulations! The Sudoku is solved correctly.')
-    } else {
-      setMessage('The Sudoku solution is not correct. Please try again.')
     }
   }
 
@@ -161,61 +162,9 @@ const Home = () => {
             onClick={() => setIsModalOpen(true)}
             className="absolute top-4 right-4 bg-white shadow-md hover:scale-110 hover:bg-gray-500 hover:cursor-pointer p-2 rounded-full"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 256 256"
-              width={24}
-              height={24}
-            >
-              <rect width="256" height="256" fill="none" />
-              <circle cx="128" cy="180" r="12" />
-              <path
-                d="M128,144v-8c17.67,0,32-12.54,32-28s-14.33-28-32-28S96,92.54,96,108v4"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="16"
-              />
-              <circle
-                cx="128"
-                cy="128"
-                r="96"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="16"
-              />
-            </svg>
+            <InfoIcon />
           </span>
-          <div className="flex flex-wrap mb-4 gap-2 sm:gap-4">
-            <button
-              onClick={() => resetGame('easy')}
-              className={`bg-blue-300 text-slate-900 hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'easy' ? 'border border-black' : ''}`}
-            >
-              Easy
-            </button>
-            <button
-              onClick={() => resetGame('medium')}
-              className={`bg-green-300 text-slate-900 hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'medium' ? 'border border-black' : ''}`}
-            >
-              Medium
-            </button>
-            <button
-              onClick={() => resetGame('hard')}
-              className={`bg-red-300 text-slate-900 hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'hard' ? 'border border-black' : ''}`}
-            >
-              Hard
-            </button>
-            <button
-              onClick={() => resetGame('insane')}
-              className={`bg-black text-white hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'insane' ? 'border border-black' : ''}`}
-            >
-              Insane
-            </button>
-          </div>
-
+          <DifficultyButtons difficulty={difficulty} resetGame={resetGame} />
           {board.length > 0 && (
             <SudokuBoard
               board={board}
@@ -235,7 +184,7 @@ const Home = () => {
               New Game
             </button>
           </div>
-          {message && <div className="mt-4 text-lg">{message}</div>}
+          <Message message={message} />
           {isModalOpen && <InfoModal onClose={() => setIsModalOpen(false)} />}
         </>
       )}
