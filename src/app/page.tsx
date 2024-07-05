@@ -89,15 +89,6 @@ const Home = () => {
   }
 
   const checkSolution = (newBoard: number[][]) => {
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
-        if (newBoard[i][j] === 0) {
-          setMessage('Please fill all cells before checking the solution.')
-          return
-        }
-      }
-    }
-
     if (isBoardValid(newBoard)) {
       setMessage('Congratulations! The Sudoku is solved correctly.')
     }
