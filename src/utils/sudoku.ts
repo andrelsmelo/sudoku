@@ -100,12 +100,18 @@ export const removeNumbers = (board: number[][], count: number): number[][] => {
 }
 
 export const generateInitialBoard = (
-  difficulty: 'easy' | 'medium' | 'hard' = 'medium',
+  difficulty: 'easy' | 'medium' | 'hard' | 'insane' = 'medium',
 ): number[][] => {
   const fullBoard = generateFullBoard()
   const randomizedBoard = shuffleBoard(fullBoard)
   const numberOfCellsToRemove =
-    difficulty === 'easy' ? 30 : difficulty === 'medium' ? 40 : 50
+    difficulty === 'easy'
+      ? 30
+      : difficulty === 'medium'
+        ? 40
+        : difficulty === 'hard'
+          ? 50
+          : 70
   return removeNumbers(randomizedBoard, numberOfCellsToRemove)
 }
 

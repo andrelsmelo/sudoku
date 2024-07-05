@@ -3,14 +3,16 @@
 import { useEffect, useState } from 'react'
 import SudokuBoard from '../components/SudokuBoard'
 import { generateInitialBoard, isBoardValid } from '../utils/sudoku'
+import InfoModal from '@/components/InfoModal'
 
 const Home = () => {
   const [initialBoard, setInitialBoard] = useState<number[][]>([])
   const [board, setBoard] = useState<number[][]>([])
   const [message, setMessage] = useState<string>('')
-  const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>(
-    'medium',
-  )
+  const [difficulty, setDifficulty] = useState<
+    'easy' | 'medium' | 'hard' | 'insane'
+  >('medium')
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     const newBoard = generateInitialBoard(difficulty)
@@ -19,7 +21,7 @@ const Home = () => {
   }, [difficulty])
 
   const handleInputChange = (row: number, col: number, value: string) => {
-    if (initialBoard[row][col] !== 0) return // Prevent changes to initial values
+    if (initialBoard[row][col] !== 0) return
 
     if (value === '' || /^[1-9]$/.test(value)) {
       const newBoard = board.map((rowArray, rowIndex) =>
@@ -45,7 +47,7 @@ const Home = () => {
   }
 
   const resetGame = (
-    newDifficulty: 'easy' | 'medium' | 'hard' = difficulty,
+    newDifficulty: 'easy' | 'medium' | 'hard' | 'insane' = difficulty,
   ) => {
     setDifficulty(newDifficulty)
     const newBoard = generateInitialBoard(newDifficulty)
@@ -82,27 +84,66 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
+    <div className="relative min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
+      <span
+        onClick={() => setIsModalOpen(true)}
+        className="absolute top-4 right-4 bg-white shadow-md hover:scale-110 hover:bg-gray-500 hover:cursor-pointer px-2 py-2 rounded-full"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 256 256"
+          width={32}
+          height={32}
+        >
+          <rect width="256" height="256" fill="none" />
+          <circle cx="128" cy="180" r="12" />
+          <path
+            d="M128,144v-8c17.67,0,32-12.54,32-28s-14.33-28-32-28S96,92.54,96,108v4"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="16"
+          />
+          <circle
+            cx="128"
+            cy="128"
+            r="96"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="16"
+          />
+        </svg>
+      </span>
       <div className="flex mb-4 gap-4">
         <button
           onClick={() => resetGame('easy')}
-          className={`bg-blue-300 text-slate-900  px-4 py-2 rounded ${difficulty === 'easy' ? 'border border-black scale-125' : ''} mr-2`}
+          className={`bg-blue-300 text-slate-900  hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'easy' ? 'border border-black' : ''} mr-2`}
         >
           Easy
         </button>
         <button
           onClick={() => resetGame('medium')}
-          className={`bg-green-300 text-slate-900 px-4 py-2 rounded ${difficulty === 'medium' ? 'border border-black scale-125' : ''} mr-2`}
+          className={`bg-green-300 text-slate-900 hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'medium' ? 'border border-black' : ''} mr-2`}
         >
           Medium
         </button>
         <button
           onClick={() => resetGame('hard')}
-          className={`bg-red-300 text-slate-900  px-4 py-2 rounded ${difficulty === 'hard' ? 'border border-black scale-125' : ''}`}
+          className={`bg-red-300 text-slate-900  hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'hard' ? 'border border-black' : ''}`}
         >
           Hard
         </button>
+        <button
+          onClick={() => resetGame('insane')}
+          className={`bg-black text-white  hover:cursor-pointer hover:scale-110 px-4 py-2 transition-all ease-in-out rounded ${difficulty === 'hard' ? 'border border-black' : ''}`}
+        >
+          Insane
+        </button>
       </div>
+
       {board.length > 0 && (
         <SudokuBoard
           board={board}
@@ -114,18 +155,19 @@ const Home = () => {
       <div className="mt-4">
         <button
           onClick={checkSolution}
-          className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+          className="bg-blue-500 text-white px-4 py-2  hover:scale-110 rounded mr-2"
         >
           Check Solution
         </button>
         <button
           onClick={() => resetGame()}
-          className="bg-red-500 text-white px-4 py-2 rounded mr-2"
+          className="bg-red-500 text-white px-4 py-2 hover:scale-110 rounded mr-2"
         >
           New Game
         </button>
       </div>
       {message && <div className="mt-4 text-lg">{message}</div>}
+      {isModalOpen && <InfoModal onClose={() => setIsModalOpen(false)} />}
     </div>
   )
 }
