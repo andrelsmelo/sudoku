@@ -3,44 +3,19 @@
 import React from 'react'
 
 const Loading: React.FC = () => {
+  const word = 'SUDOKU'
+  const colors = ['bg-blue-500', 'bg-green-500', 'bg-red-500']
+
   return (
     <div className="flex items-center justify-center space-x-2">
-      <div
-        className="p-2 text-white bg-blue-500 rounded-full transition-all ease-in-out animate-bounce"
-        style={{ animationDelay: '0s' }}
-      >
-        S
-      </div>
-      <div
-        className="p-2 text-white bg-green-500 rounded-full transition-all ease-in-out animate-bounce"
-        style={{ animationDelay: '0.1s' }}
-      >
-        U
-      </div>
-      <div
-        className="p-2 text-white bg-red-500 rounded-full transition-all ease-in-out animate-bounce"
-        style={{ animationDelay: '0.2s' }}
-      >
-        D
-      </div>
-      <div
-        className="p-2 text-white bg-blue-500 rounded-full transition-all ease-in-out animate-bounce"
-        style={{ animationDelay: '0.3s' }}
-      >
-        O
-      </div>
-      <div
-        className="p-2 text-white bg-green-500 rounded-full transition-all ease-in-out animate-bounce"
-        style={{ animationDelay: '0.4s' }}
-      >
-        K
-      </div>
-      <div
-        className="p-2 text-white bg-red-500 rounded-full transition-all ease-in-out animate-bounce"
-        style={{ animationDelay: '0.5s' }}
-      >
-        U
-      </div>
+      {word.split('').map((letter, index) => (
+        <div
+          key={index}
+          className={`p-2 text-white ${colors[index % colors.length]} rounded-full animate-bounce-slow-${index}`}
+        >
+          {letter}
+        </div>
+      ))}
     </div>
   )
 }

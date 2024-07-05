@@ -8,10 +8,19 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      animation: {
+        'bounce-slow-0': 'bounce-slow 2s infinite 0s',
+        'bounce-slow-1': 'bounce-slow 2s infinite 0.1s',
+        'bounce-slow-2': 'bounce-slow 2s infinite 0.2s',
+        'bounce-slow-3': 'bounce-slow 2s infinite 0.3s',
+        'bounce-slow-4': 'bounce-slow 2s infinite 0.4s',
+        'bounce-slow-5': 'bounce-slow 2s infinite 0.5s',
+      },
+      keyframes: {
+        'bounce-slow': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-25%)' },
+        },
       },
     },
   },
